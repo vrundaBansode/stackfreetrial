@@ -1,0 +1,5 @@
+{
+  "name": "ErrorInstantly",
+  "description": "A minimalist, Google-inspired tool that explains complex coding errors instantly using AI. Paste your error, specify context, and get human-readable solutions.",
+  "requestFramePermissions": []
+}
