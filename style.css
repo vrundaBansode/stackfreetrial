@@ -1,0 +1,50 @@
+
+/* 
+  Custom Base Styles
+  These styles complement the Tailwind utility system.
+*/
+html, body {
+  margin: 0;
+  padding: 0;
+  background-color: #F8F9FA;
+  color: #202124;
+  font-family: 'Google Sans', 'Roboto', 'Helvetica Neue', 'Arial', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+}
+
+/* Custom Cursor handling - only hide native cursor on desktop */
+@media (min-width: 1024px) {
+  html, body {
+    cursor: none;
+  }
+}
+
+/* Global Selection highlight */
+::selection {
+  background-color: #1A73E8;
+  color: #ffffff;
+}
+
+/* Custom Scrollbar for Google-like aesthetics */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+::-webkit-scrollbar-thumb {
+  background: #dadce0;
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #bdc1c6;
+}
+
+/* Smooth transitions for all interactive components */
+* {
+  transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
