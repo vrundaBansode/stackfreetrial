@@ -13,11 +13,25 @@ const App: React.FC = () => {
   const [explanation, setExplanation] = useState<ErrorExplanation | null>(null);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   
-  // Lifted state from ErrorInput
   const [errorText, setErrorText] = useState('');
   const [language, setLanguage] = useState<Language>('Auto-detect');
   const [framework, setFramework] = useState<Framework>('Auto-detect');
   const [isAutoDetected, setIsAutoDetected] = useState(false);
+
+  // Lists for validation/normalization
+  const languages: Language[] = [
+    'Auto-detect', 'JavaScript', 'TypeScript', 'Python', 'Java', 
+    'C++', 'C#', 'Go', 'Rust', 'Ruby', 'PHP', 'Swift', 
+    'Kotlin', 'Dart', 'Shell', 'SQL', 'Assembly', 'Haskell',
+    'Scala', 'R', 'MATLAB', 'Objective-C', 'Perl', 'Other'
+  ];
+
+  const frameworks: Framework[] = [
+    'Auto-detect', 'React', 'Next.js', 'Vue', 'Angular', 'Svelte', 
+    'Express', 'NestJS', 'Django', 'Flask', 'FastAPI', 'Spring Boot', 
+    'Laravel', 'Ruby on Rails', 'Flutter', 'React Native', 'Nuxt', 
+    'SolidJS', 'Remix', 'Electron', 'Ionic', 'None'
+  ];
 
   const handleExplain = async () => {
     setIsLoading(true);
@@ -33,22 +47,33 @@ const App: React.FC = () => {
       
       setExplanation(result);
 
-      // Auto-populate dropdowns if they were set to Auto-detect
+      // Robust Auto-population logic
       if (language === 'Auto-detect') {
-        // Simple normalization check - if the returned string is in our set, select it.
-        // This makes the UI feel "intelligent" by filling in the blanks.
-        const detectedL = result.detectedLanguage as any;
-        setLanguage(detectedL);
-        setIsAutoDetected(true);
+        const detectedL = result.detectedLanguage;
+        const matchedL = languages.find(l => l.toLowerCase() === detectedL.toLowerCase());
+        if (matchedL) {
+          setLanguage(matchedL);
+          setIsAutoDetected(true);
+        } else {
+          setLanguage('Other');
+          setIsAutoDetected(true);
+        }
       }
+
       if (framework === 'Auto-detect') {
-        const detectedF = result.detectedFramework as any;
-        setFramework(detectedF);
-        setIsAutoDetected(true);
+        const detectedF = result.detectedFramework;
+        const matchedF = frameworks.find(f => f.toLowerCase() === detectedF.toLowerCase());
+        if (matchedF) {
+          setFramework(matchedF);
+          setIsAutoDetected(true);
+        } else {
+          setFramework('None');
+          setIsAutoDetected(true);
+        }
       }
     } catch (err: any) {
       console.error(err);
-      setErrorMsg("Failed to analyze the error. Please check your API key or connection.");
+      setErrorMsg("Failed to analyze the error. Please check your connection.");
     } finally {
       setIsLoading(false);
     }
@@ -95,7 +120,7 @@ const App: React.FC = () => {
 
       <footer className="fixed bottom-0 w-full py-4 text-center bg-white/80 backdrop-blur-sm border-t border-gray-100 z-50">
         <p className="text-gray-400 text-[10px] font-bold uppercase tracking-widest">
-          Intelligent Debugging Assistance • Built with Gemini 2.5
+          Intelligent Debugging Assistance • Powered by Gemini 3 Flash
         </p>
       </footer>
     </div>

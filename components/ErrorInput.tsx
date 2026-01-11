@@ -18,13 +18,15 @@ interface ErrorInputProps {
 const languages: Language[] = [
   'Auto-detect', 'JavaScript', 'TypeScript', 'Python', 'Java', 
   'C++', 'C#', 'Go', 'Rust', 'Ruby', 'PHP', 'Swift', 
-  'Kotlin', 'Dart', 'Shell', 'SQL', 'Other'
+  'Kotlin', 'Dart', 'Shell', 'SQL', 'Assembly', 'Haskell',
+  'Scala', 'R', 'MATLAB', 'Objective-C', 'Perl', 'Other'
 ];
 
 const frameworks: Framework[] = [
   'Auto-detect', 'React', 'Next.js', 'Vue', 'Angular', 'Svelte', 
   'Express', 'NestJS', 'Django', 'Flask', 'FastAPI', 'Spring Boot', 
-  'Laravel', 'Ruby on Rails', 'Flutter', 'React Native', 'None'
+  'Laravel', 'Ruby on Rails', 'Flutter', 'React Native', 'Nuxt', 
+  'SolidJS', 'Remix', 'Electron', 'Ionic', 'None'
 ];
 
 const ErrorInput: React.FC<ErrorInputProps> = ({ 
@@ -60,7 +62,7 @@ const ErrorInput: React.FC<ErrorInputProps> = ({
         />
         {errorText.length > 0 && (
           <button 
-            onClick={() => setErrorText('')}
+            onClick={() => { setErrorText(''); setLanguage('Auto-detect'); setFramework('Auto-detect'); }}
             className="absolute top-4 right-4 text-gray-300 hover:text-gray-500 p-2 rounded-full hover:bg-gray-50 transition-colors"
           >
             Clear
@@ -71,13 +73,13 @@ const ErrorInput: React.FC<ErrorInputProps> = ({
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="space-y-1">
           <label className="text-[10px] font-bold text-gray-400 uppercase ml-1 flex items-center gap-1">
-            Language {isAutoDetected && language !== 'Auto-detect' && <span className="text-blue-500 animate-pulse">✨</span>}
+            Language {isAutoDetected && language !== 'Auto-detect' && <span className="text-blue-500 animate-pulse">✨ Auto-filled</span>}
           </label>
           <div className="relative">
             <select 
               value={language}
               onChange={(e) => setLanguage(e.target.value as Language)}
-              className={`w-full p-3 bg-white border rounded-xl shadow-sm text-gray-700 outline-none focus:ring-2 focus:ring-blue-100 transition-all appearance-none cursor-pointer ${isAutoDetected && language !== 'Auto-detect' ? 'border-blue-200 bg-blue-50/30' : 'border-gray-200'}`}
+              className={`w-full p-3 bg-white border rounded-xl shadow-sm text-gray-700 outline-none focus:ring-2 focus:ring-blue-100 transition-all appearance-none cursor-pointer ${isAutoDetected && language !== 'Auto-detect' ? 'border-blue-300 bg-blue-50/50 ring-2 ring-blue-50' : 'border-gray-200'}`}
             >
               {languages.map(l => <option key={l} value={l}>{l}</option>)}
             </select>
@@ -88,13 +90,13 @@ const ErrorInput: React.FC<ErrorInputProps> = ({
         </div>
         <div className="space-y-1">
           <label className="text-[10px] font-bold text-gray-400 uppercase ml-1 flex items-center gap-1">
-            Framework {isAutoDetected && framework !== 'Auto-detect' && <span className="text-blue-500 animate-pulse">✨</span>}
+            Framework {isAutoDetected && framework !== 'Auto-detect' && <span className="text-blue-500 animate-pulse">✨ Auto-filled</span>}
           </label>
           <div className="relative">
             <select 
               value={framework}
               onChange={(e) => setFramework(e.target.value as Framework)}
-              className={`w-full p-3 bg-white border rounded-xl shadow-sm text-gray-700 outline-none focus:ring-2 focus:ring-blue-100 transition-all appearance-none cursor-pointer ${isAutoDetected && framework !== 'Auto-detect' ? 'border-blue-200 bg-blue-50/30' : 'border-gray-200'}`}
+              className={`w-full p-3 bg-white border rounded-xl shadow-sm text-gray-700 outline-none focus:ring-2 focus:ring-blue-100 transition-all appearance-none cursor-pointer ${isAutoDetected && framework !== 'Auto-detect' ? 'border-blue-300 bg-blue-50/50 ring-2 ring-blue-50' : 'border-gray-200'}`}
             >
               {frameworks.map(f => <option key={f} value={f}>{f}</option>)}
             </select>

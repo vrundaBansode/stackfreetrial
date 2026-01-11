@@ -9,20 +9,23 @@ export const explainError = async (req: ExplainRequest): Promise<ErrorExplanatio
   const { language, framework } = context;
 
   const contextStr = [
-    language !== 'Auto-detect' ? `Language: ${language}` : "Language: Unknown (Analyze error)",
-    framework !== 'Auto-detect' ? `Framework: ${framework}` : "Framework: Unknown (Analyze error)",
+    language !== 'Auto-detect' ? `Language: ${language}` : "Language: Unknown (Please detect)",
+    framework !== 'Auto-detect' ? `Framework: ${framework}` : "Framework: Unknown (Please detect)",
   ].join(", ");
 
   const prompt = `
     You are a world-class senior software engineer. 
-    Analyze the provided error message and identify the programming language and framework/library.
+    Analyze the provided error message and identify the programming language and framework.
     
     Context: ${contextStr}
     Error: ${errorText}
     
     Your response MUST be a JSON object. 
-    In 'detectedLanguage', try to use one of these if applicable: JavaScript, TypeScript, Python, Java, C++, C#, Go, Rust, Ruby, PHP, Swift, Kotlin, Dart, Shell, SQL.
-    In 'detectedFramework', try to use one of these if applicable: React, Next.js, Vue, Angular, Svelte, Express, NestJS, Django, Flask, FastAPI, Spring Boot, Laravel, Ruby on Rails, Flutter, React Native, or 'None'.
+    For 'detectedLanguage', you MUST use one of these EXACT strings: JavaScript, TypeScript, Python, Java, C++, C#, Go, Rust, Ruby, PHP, Swift, Kotlin, Dart, Shell, SQL, Assembly, Haskell, Scala, R, MATLAB, Objective-C, Perl, or 'Other'.
+    
+    For 'detectedFramework', you MUST use one of these EXACT strings: React, Next.js, Vue, Angular, Svelte, Express, NestJS, Django, Flask, FastAPI, Spring Boot, Laravel, Ruby on Rails, Flutter, React Native, Nuxt, SolidJS, Remix, Electron, Ionic, or 'None'.
+    
+    If you are unsure, provide your best guess from these lists.
   `;
 
   try {
